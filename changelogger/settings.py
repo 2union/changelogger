@@ -103,7 +103,8 @@ REST_FRAMEWORK = {
 
 if not DEBUG:
     sentry_sdk.init(
-        dsn=os.getenv("SENTRY_DSN", ""), integrations=[DjangoIntegration()],
+        dsn=os.getenv("SENTRY_DSN", ""),
+        integrations=[DjangoIntegration()],
     )
 
 LOGOUT_REDIRECT_URL = "changelogs:index"

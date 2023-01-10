@@ -128,7 +128,9 @@ class Migration(migrations.Migration):
                 "verbose_name_plural": "users",
                 "abstract": False,
             },
-            managers=[("objects", django.contrib.auth.models.UserManager()),],
+            managers=[
+                ("objects", django.contrib.auth.models.UserManager()),
+            ],
         ),
         migrations.CreateModel(
             name="Project",
@@ -159,7 +161,10 @@ class Migration(migrations.Migration):
                     models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL),
                 ),
             ],
-            options={"db_table": "projects", "ordering": ["id"],},
+            options={
+                "db_table": "projects",
+                "ordering": ["id"],
+            },
         ),
         migrations.CreateModel(
             name="Version",
@@ -184,6 +189,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"db_table": "versions", "ordering": ["-date_time"],},
+            options={
+                "db_table": "versions",
+                "ordering": ["-date_time"],
+            },
         ),
     ]

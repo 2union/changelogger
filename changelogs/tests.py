@@ -66,7 +66,9 @@ class SubscriptionsViewTests(TestCase):
             owner=self.user,
         )
         Project.objects.create(
-            title="requests", url="https://github.com/psf/requests", owner=another_user,
+            title="requests",
+            url="https://github.com/psf/requests",
+            owner=another_user,
         )
         self.client.login(username="jacob", password="top_secret")
         response = self.client.get(reverse("changelogs:subscriptions"))
@@ -211,7 +213,10 @@ class VersionDetailViewTests(TestCase):
         response = self.client.get(
             reverse(
                 "changelogs:version_detail",
-                args=(project_django.id, versions_django_1.id,),
+                args=(
+                    project_django.id,
+                    versions_django_1.id,
+                ),
             )
         )
 
@@ -240,7 +245,10 @@ class ProjectDetailViewTests(TestCase):
 
         self.client.login(username="jacob", password="top_secret")
         response = self.client.get(
-            reverse("changelogs:project_detail", args=(project_django.id,),)
+            reverse(
+                "changelogs:project_detail",
+                args=(project_django.id,),
+            )
         )
         self.assertContains(response, "django")
 
@@ -263,7 +271,10 @@ class ProjectDetailViewTests(TestCase):
 
         self.client.login(username="jacob", password="top_secret")
         response = self.client.get(
-            reverse("changelogs:project_detail", args=(project_django.id,),)
+            reverse(
+                "changelogs:project_detail",
+                args=(project_django.id,),
+            )
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -281,7 +292,10 @@ class ProjectDetailViewTests(TestCase):
             body="* change one* change two",
         )
         response = self.client.get(
-            reverse("changelogs:project_detail", args=(project_django.id,),)
+            reverse(
+                "changelogs:project_detail",
+                args=(project_django.id,),
+            )
         )
         self.assertContains(response, "django")
 
@@ -293,7 +307,10 @@ class ProjectDetailViewTests(TestCase):
             is_public=False,
         )
         response = self.client.get(
-            reverse("changelogs:project_detail", args=(project_django.id,),)
+            reverse(
+                "changelogs:project_detail",
+                args=(project_django.id,),
+            )
         )
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -311,19 +328,32 @@ class AddVersionViewTests(TestCase):
             title="Django", url="https://github.com/django/django", owner=self.user
         )
         response = self.client.get(
-            reverse("changelogs:add_version", args=(project_django.id,),)
+            reverse(
+                "changelogs:add_version",
+                args=(project_django.id,),
+            )
         )
         self.assertContains(response, "Title")
         self.assertContains(response, "Body")
         self.assertContains(response, "Add version to Django")
 
     def test_get_anonymous(self):
-        response = self.client.get(reverse("changelogs:add_version", args=(1000,),))
+        response = self.client.get(
+            reverse(
+                "changelogs:add_version",
+                args=(1000,),
+            )
+        )
         self.assertRedirects(response, "/login/?next=/projects/1000/versions/add")
 
     def test_get_wrong_project_id(self):
         self.client.login(username="jacob", password="top_secret")
-        response = self.client.get(reverse("changelogs:add_version", args=(1000,),))
+        response = self.client.get(
+            reverse(
+                "changelogs:add_version",
+                args=(1000,),
+            )
+        )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
