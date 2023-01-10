@@ -9,6 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15.0
+        env:
+          - POSTGRES_PASSWORD: password
+          - POSTGRES_DB: development
+        ports:
+          - 5432:5432
     strategy:
       matrix:
         python-version: [3.11]
@@ -36,3 +44,8 @@ jobs:
       - name: Run tests
         run: |
           python manage.py test
+        env:
+          DATABASE_HOST: localhost
+          DATABASE_USER: postgres
+          DATABASE_PASSWORD: password
+          DATABASE_NAME: development
