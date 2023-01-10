@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", True)
 
-DEBUG = os.getenv("DEBUG", True)
+DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = [
     "yourchangelogs.herokuapp.com",
@@ -115,23 +115,15 @@ SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", None)
 
 NOREPLY_EMAIL_ADDRESS = "noreply@yourchangelogs.com"
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "HOST": os.getenv("DATABASE_HOST", ""),
+        "USER": os.getenv("DATABASE_USER", ""),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
+        "NAME": os.getenv("DATABASE_NAME", ""),
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "HOST": os.getenv("DATABASE_HOST", ""),
-            "USER": os.getenv("DATABASE_USER", ""),
-            "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
-            "NAME": os.getenv("DATABASE_NAME", ""),
-        }
-    }
+}
 
 # auto redirect to https
 if not DEBUG:
